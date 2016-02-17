@@ -4,8 +4,6 @@ date=$(date +%d-%m-%y)
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Destination Directory
 dest=~/Output/M9_Kernel
-# Location to dtbToolCM
-dtbTool=~/toolchains/dtbToolCM
 # Configuration Name
 config=msm8994_defconfig
 #Set Path, cross compile and user
@@ -68,17 +66,13 @@ echo " Finish time: $(date +"%r")"
 echo
 mkdir -p $dest
 
-# Make the dt.img 
-echo "Making dt.img"
-$dtbTool -2 -o arch/arm64/boot/dt.img -s 4096 -p scripts/dtc/ arch/arm64/boot/dts/ > /dev/null
 
 # Get the modules
 mkdir -p $dest/system/lib/modules/
 find . -name '*ko' -exec cp '{}' $dest/system/lib/modules/ \;
 
-# Copy Image and dt.img
+# Copy Image
 cp arch/arm64/boot/Image $dest/.
-cp arch/arm64/boot/dt.img $dest/.
 
 
 echo "-> Done"
